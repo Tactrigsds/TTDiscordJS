@@ -5,7 +5,6 @@ const bot = new Discord.Client();
 
 
 
-
 // The bot login token 
 bot.login("NzU3MTE0MDIxMTMxMzIxNDE1.X2brYQ.Z3Pakm5a2crpy71yJYYC4crNQD8").then(() => {
     console.log("bot is ready");
