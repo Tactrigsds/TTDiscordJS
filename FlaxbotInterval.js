@@ -10,5 +10,5 @@ bot.login("NzU3MTE0MDIxMTMxMzIxNDE1.X2brYQ.Z3Pakm5a2crpy71yJYYC4crNQD8").then(()
     console.log("bot is ready");
     let seeder_role_id = "757561720720982058"
     let channel = bot.channels.cache.find(channel => channel.name === "seeders-test");
-    channel.channels.cache.find().send(`<@&${seeder_role_id}> Help always appreciated - blah blah`).then(() => bot.destroy());
+    channel.channels.cache.find().send(`<@&${seeder_role_id}> help always appreciated, AFK or otherwise !`).then(() => bot.destroy());
 });

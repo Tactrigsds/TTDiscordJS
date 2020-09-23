@@ -1,7 +1,7 @@
 // These are required. Requires the user to have the discord.js installed
 const Discord = require("discord.js");
 // Creates an instance of Discord Client object
-const bot = new Discord.Client();
+const bot = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
 var seedChannelId = "757194564053368904"
 var seederRoleId = "757561720720982058"
 var seedReactionEmojiID = "757691967672025171"
@@ -19,29 +19,36 @@ bot.on('ready', () => {
             console.log(` - ${channel.type} ${channel.name} ${channel.id}`)
         })
         // Seeder-test channel ID - 757194564053368904
-
     })
         // Seeder Role ID = 757561720720982058
 })
 
 //The various commands are defined here. Not a very good implementation
-bot.on("message", (message) => {
+bot.on("message", async (message) => {
     let channel = bot.channels.cache.find(channel => channel.name === "seeders-test")
     let input = message.content
+    try {
+        await message.fetch();
+    } catch (error) {
+        console.error("something went wrong when fetching the message: ", error)
+        return;
+    }
+    
     if(input == "!ping") {
-        message.reply("pong");
+        message.channel.send("pong");
+
     } else if(input == "!seedstartmsg") {
         console.log("detected input in: " + channel)
         channel.send(`<@&${seederRoleId}> Help always appreciated - blah blah`);
+
     } else if(input == "!help") {
         let commands = [" !ping ", " !seedstartmsg "]
-        message.reply("Available commands are: " + commands)
+        message.channel.send("Available commands are: " + commands)
     }
 });
 
 // The bot executes this when a reaction to any message is detected
 bot.on("messageReactionAdd", async (reaction, user) => {
-    let channel = bot.channels.cache.find(channel => channel.name === "seeders-test")
     if (reaction.partial){
         try {
             await reaction.fetch();
@@ -50,36 +57,34 @@ bot.on("messageReactionAdd", async (reaction, user) => {
             return;
         }
     }
-    // Here is where the main logic starts. Checks if the reaction happens in the correct channel before executing.-
-    let emoji = reaction.emoji.name;
-    if (channel == ":seed:");
-        if (emoji == seedReactionEmojiID);
-            let serverMember = reaction.message.guild.members.cache.get(user.id);
-            let role = reaction.message.guild.roles.cache.get(seederRoleId);
-            serverMember.roles.add(role);
-            //channel.send(user.name + " have been added to the seeder role")
-            channel.send(reaction.message.guild.members.cache.get(user.name) + " has been added to the seeder role")
-    console.log("This is the reaction emoji: " + emoji)
+
+    // Here is where the main logic starts. Checks if the reaction happens in the correct channel before executing.
+    let emoji = reaction.emoji;
+    if (emoji === seedReactionEmojiID && reaction.message.channel.name === "seeders-test") {
+        let serverMember = reaction.message.guild.members.cache.get(user.id);
+        let role = reaction.message.guild.roles.cache.get(seederRoleId);
+        serverMember.roles.add(role);
+        reaction.message.channel.send(user.username + " has been added to the seeder role")
+    } console.log(`This is the reaction emoji:  + ${emoji.name}`)
 });
 
 
 bot.on("messageReactionRemove", async (reaction, user) => {
-    let channel = bot.channels.cache.find(channel => channel.name === "seeders-test")
-    if (reaction.partial){
+    if (reaction.partial){ // This lets the bot read previous messages, rather than only messages posted after it joined the server
         try {
             await reaction.fetch();
         } catch (error) {
             console.error("something went wrong when fetching the message: ", error)
             return;
-        }
-    }
-    let emoji = reaction.emoji.name;
-    if (channel === ":seed:" && emoji === seedReactionEmojiID);
+        };
+    };
+    let emoji = reaction.emoji;
+    if (reaction.message.channel.name === "seeders-test" && emoji === seedReactionEmojiID) {
         let serverMember = reaction.message.guild.members.cache.get(user.id);
         let role = reaction.message.guild.roles.cache.get(seederRoleId);
         serverMember.roles.remove(role);
-        channel.send(reaction.message.guild.members.cache.get(user.name) + " have been removed from the seeder role")
-    console.log("This is the reaction emoji: " + emoji)
+        reaction.message.channel.send(user.username + " have been removed from the seeder role")
+    }; console.log("This is the reaction emoji: " + emoji.name)
 });
 
 
