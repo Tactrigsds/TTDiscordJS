@@ -1,3 +1,5 @@
+Flax's work for clearing and popping seeding channel, will be integreated later into master bot
+
 TT Discord bot prototype.
 
 
