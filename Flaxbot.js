@@ -110,7 +110,7 @@ bot.on("messageReactionRemove", async (reaction, user) => {
 
 
 // The bot login token. Used to authenticate the bot in Discord
-bot.login("NzU3MTE0MDIxMTMxMzIxNDE1.X2brYQ.p1wCHr9Hr9IPfeY9wd98gGU7Jn0")
+bot.login("xxxx")
 
 // Checks if it's the time is within the desired interval
 function timeCheck (start, end) {
