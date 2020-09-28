@@ -2,8 +2,8 @@
 const Discord = require("discord.js");
 // Creates an instance of Discord Client object
 const bot = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
-var startInterval = 975 // The earliest time the will execute at, measured in minutes from midnight. Currently set at 14:00 UTC. Should be specified in UTC
-var endInterval = 985 // The latest time it will start at, measured in minutes from midnight. Currently set at 14:10 UTC. Should be specified in UTC
+var startInterval = 840 // The earliest time the will execute at, measured in minutes from midnight. Currently set at 14:00 UTC. Should be specified in UTC
+var endInterval = 850 // The latest time it will start at, measured in minutes from midnight. Currently set at 14:10 UTC. Should be specified in UTC
 // var seedChannelId = "757194564053368904"
 var seederRoleId = "757561720720982058"
 var seedReactionEmojiID = "757691967672025171"
